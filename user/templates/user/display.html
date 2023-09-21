@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        .data{
+            float:left;
+            width:28%;
+        }
+    </style>
+</head>
+<body onload="disable()">
+<div class="container mt-3">
+    <h2>Edit Permissions</h2>
+    <button onclick="edit()"> Edit </button>
+
+    <p></p>
+    <div class="card" style="width:auto; height:auto; background:white;">
+        <div>
+            <h4 class="card-title"></h4>
+            <div class="card-text ">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for permissions in group_permissions %}
+                    <div class="data">
+                        <input type="checkbox" class="check_box" id="{{permissions.name}}" value="{{permissions.id}}" name="assigned"
+                               checked>
+                        <label class="form-check-label" for="{{permissions.name}}">{{permissions.name}}</label>
+                    </div>
+                    {% endfor %}
+                    {% for all_perm in all_permissions%}
+                    {% if all_perm not in group_permissions %}
+                    <div class="data">
+                        <input type="checkbox" class="check_box" id="{{all_perm.id}}" value="{{all_perm.id}}" name="remaining">
+                        <label class="form-check-label" for="{{all_perm.id}}">{{all_perm.name}}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    <input type="submit" class="submit" value="submit">
+                    <a href="{% url 'home' %}">Back_to_Home</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    function disable()
+    {
+        $('.check_box').attr("disabled", true)
+        $('.submit').attr("disabled", true)
+    }
+    function edit()
+    {
+        $('.check_box').removeAttr('disabled')
+        $('.submit').removeAttr('disabled')
+    }
+</script>
