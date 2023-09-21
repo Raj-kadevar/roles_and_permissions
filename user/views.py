@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
@@ -12,10 +11,6 @@ class UserLoginView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
-
-    def form_invalid(self, form):
-        messages.error(self.request, 'Invalid username or password')
-        return self.render_to_response(self.get_context_data(form=form))
 
 
 class GroupListView(LoginRequiredMixin,View):
@@ -32,7 +27,7 @@ class ManagePermissions(LoginRequiredMixin,View):
 
     def post(self, request, *args, **kwargs):
         group_permissions = Group.objects.get(id=kwargs.get('id'))
-        total_permissions = request.POST.getlist('remaining') + request.POST.getlist('assigned')
+        total_permissions = request.POST.getlist('new_selected_checkbox') + request.POST.getlist('selected_checkbox')
         group_permissions.permissions.set(total_permissions)
         group_permissions.save()
         return redirect('home')
@@ -47,7 +42,7 @@ class ViewPermissions(LoginRequiredMixin,View):
 
     def post(self, request, *args, **kwargs):
         group_permissions = Group.objects.get(id=kwargs.get('id'))
-        total_permissions = request.POST.getlist('remaining') + request.POST.getlist('assigned')
+        total_permissions = request.POST.getlist('new_selected_checkbox') + request.POST.getlist('selected_checkbox')
         group_permissions.permissions.set(total_permissions)
         group_permissions.save()
         return redirect('home')
