@@ -24,7 +24,7 @@
                     {% csrf_token %}
                     {% for permissions in group_permissions %}
                     <div class="data">
-                        <input type="checkbox" class="check_box" id="{{permissions.name}}" value="{{permissions.id}}" name="assigned"
+                        <input type="checkbox" class="check_box" id="{{permissions.name}}" value="{{permissions.id}}" name="selected_checkbox"
                                checked>
                         <label class="form-check-label" for="{{permissions.name}}">{{permissions.name}}</label>
                     </div>

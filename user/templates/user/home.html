@@ -33,10 +33,7 @@
                 <td>{{group}}</td>
                 <td>
                     {% if perms.auth.change or perms.auth.change_group %}
-                    <a href="{% url 'ViewPermissions' group.id %}"> View </a>
-                    {% endif %}
-                    {% if perms.auth.change or perms.auth.view_group %}
-                    <a href="{% url 'ManagePermissions' group.id %}"> Edit </a>
+                    <a href="{% url 'ViewPermissions' group.id %}"> View&Edit </a>
                     {% endif %}
                     {% if perms.auth.delete_user or perms.auth.delete_group %}
                     <a href="{% url 'DeletePermissions' group.id %}"> Delete </a>
