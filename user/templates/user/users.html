@@ -17,32 +17,29 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="{% url 'home' %}" class="nav-link active">Roles_and_permissions</a>
     {% if perms.auth.view_user %}
-    <a href="{% url 'users' %}">User_list</a>
+    <a href="{% url 'home' %}">User_list</a>
     {% endif %}
 </div>
 <div id="main">
     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
     <div>
         Roles & permissions</br></br>
-        {% if request.user.is_superuser %}
-        <a href="{% url 'registrationform'%}"><button onclick="adduser()" class="btn btn-primary">Add_user</button></a>
-        {% endif %}
         <table>
             <tr>
                 <th>Id</th>
-                <th>Group_name</th>
+                <th>user_name</th>
                 <th>Actions</th>
             </tr>
-            {% for group in groups%}
+            {% for user in users%}
             <tr>
-                <td>{{group.id}}</td>
-                <td>{{group}}</td>
+                <td>{{user.id}}</td>
+                <td>{{user}}</td>
                 <td>
-                    {% if perms.auth.change and perms.auth.change_group %}
-                    <a href="{% url 'ViewPermissions' group.id %}"> View&Edit </a>
+                    {% if perms.auth.view_user  and perms.auth.add_user %}
+                    <a href="{% url 'viewuserpermission' user.id %}"> View&Edit </a>
                     {% endif %}
-                    {% if perms.auth.delete_user and perms.auth.delete_group %}
-                    <a href="{% url 'DeletePermissions' group.id %}"> Delete </a>
+                    {% if perms.auth.delete_user or perms.auth.delete_user %}
+                    <a href="{% url 'deleteuserpermissions' user.id %}"> Delete </a>
                     {% endif %}
                 </td>
             </tr>
@@ -53,6 +50,3 @@
 </div>
 </body>
 </html>
-<script>
-
-</script>

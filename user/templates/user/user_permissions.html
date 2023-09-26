@@ -11,8 +11,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body onload="disable()">
+
 <div class="container mt-3">
     <h2>Edit Permissions</h2>
+
+        {% if perms.auth.view_user %}
+        <h2>not</h2>
+        {% endif %}
     <button id="editbutton" onclick="edit()"> Edit </button>
 
     <p></p>
@@ -20,9 +25,11 @@
         <div>
             <h4 class="card-title"></h4>
             <div class="card-text ">
+
                 <form method="POST">
                     {% csrf_token %}
-                    {% for permissions in group_permissions %}
+                    {{perms.user.permissions}}
+                    {% for permissions in user_permissions %}
                     <div class="data">
                         <input type="checkbox" disabled class="check_box" id="{{permissions.name}}" value="{{permissions.id}}" name="selected_checkbox"
                                checked>
@@ -30,7 +37,7 @@
                     </div>
                     {% endfor %}
                     {% for permission in all_permissions%}
-                    {% if permission not in group_permissions %}
+                    {% if permission not in user_permissions %}
                     <div class="data">
                         <input type="checkbox" disabled class="check_box" id="{{permission.id}}" value="{{permission.id}}" name="new_selected_checkbox">
                         <label class="form-check-label" for="{{permission.id}}">{{permission.name}}</label>
@@ -38,12 +45,13 @@
                     {% endif %}
                     {% endfor %}
                     <input type="submit" disabled class="submit" value="submit">
-                    <a href="{% url 'home' %}">Back_to_Home</a>
+                    <a href="{% url 'users' %}">Back_to_Home</a>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>
 <script>

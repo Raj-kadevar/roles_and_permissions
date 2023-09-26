@@ -32,9 +32,9 @@ if READ_DOT_ENV_FILE:
 SECRET_KEY = 'django-insecure-@br41q=e-%!7%ff=nm%)a5qz7e$s%+tlq+tsp(&!g=$ehk-r4x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -59,9 +59,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CSRF_TRUSTED_ORIGINS = ['https://f8af-103-24-180-44.ngrok-free.app','https://50e2-103-24-180-44.ngrok-free.app','https://*.127.0.0.1']
 ROOT_URLCONF = 'rolls_and_permissions.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

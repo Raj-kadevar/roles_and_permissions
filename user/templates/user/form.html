@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="{%static 'css/index.css'%}" rel="stylesheet" type="text/css" media="all"/>
+    <script src="{%static 'js/home.js'%}"></script>
+</head>
+<body>
+    <div class="cointer">
+        <div class="row text-center">
+            <div class="col-lg-6">
+                <form method="post" class="">
+                    {% csrf_token %}
+                    <h2>Add new user</h2></br>
+                    username: {{ form.username }}</br></br>
+                    {{ form.errors.username }}
+                    password: {{ form.password1 }}</br></br>
+                    {{ form.errors.password1 }}
+                    conform_password: {{ form.password2 }}</br></br>
+                    {{ form.errors.password2 }}
+                    <a href="{% url 'home' %}">Back_to_Home</a>  |
+                    <input type="submit" value="Add" class="btn btn-primary full-width">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
