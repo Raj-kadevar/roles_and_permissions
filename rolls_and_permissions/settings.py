@@ -32,7 +32,7 @@ if READ_DOT_ENV_FILE:
 SECRET_KEY = 'django-insecure-@br41q=e-%!7%ff=nm%)a5qz7e$s%+tlq+tsp(&!g=$ehk-r4x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "user",
     'django_extensions',
+    "user",
+
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CSRF_TRUSTED_ORIGINS = ['https://f8af-103-24-180-44.ngrok-free.app','https://50e2-103-24-180-44.ngrok-free.app','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [env.str('NGROK')]
+# CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'rolls_and_permissions.urls'
 TEMPLATES = [
     {
@@ -128,10 +130,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATIC_URL = "static/"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static/"),)
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

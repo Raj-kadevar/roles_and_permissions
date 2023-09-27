@@ -25,7 +25,7 @@
     <div>
         Roles & permissions</br></br>
         {% if request.user.is_superuser %}
-        <a href="{% url 'registrationform'%}"><button onclick="adduser()" class="btn btn-primary">Add_user</button></a>
+        <a href="{% url 'registration'%}"><button onclick="adduser()" class="btn btn-primary">Add_user</button></a>
         {% endif %}
         <table>
             <tr>

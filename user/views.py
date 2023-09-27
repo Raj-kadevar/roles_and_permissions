@@ -1,15 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.models import Group, Permission
 from django.views.generic import ListView, CreateView
-
-# from user.forms import RegistrationForm
 
 users = get_user_model()
 class UserLoginView(LoginView):
@@ -17,6 +14,8 @@ class UserLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+class CheckPermissions(PermissionRequiredMixin):
+    permission_required = ('auth.view_user', 'auth.add_user')
 
 class GroupListView(LoginRequiredMixin,ListView):
     template_name = "user/home.html"
@@ -25,7 +24,7 @@ class GroupListView(LoginRequiredMixin,ListView):
 
 class UserListView(LoginRequiredMixin,ListView):
     template_name = "user/users.html"
-    queryset = users.objects.all().order_by("id")
+    queryset = users.objects.filter(is_active=True).order_by("id")
     context_object_name = "users"
 
 
@@ -47,7 +46,7 @@ class DeletePermissions(LoginRequiredMixin,View):
         return redirect('home')
 
 
-class UserRegistration(LoginRequiredMixin, CreateView):
+class Registration(CreateView):
 
     form_class = UserCreationForm
     template_name = 'user/form.html'
@@ -66,10 +65,9 @@ class UserRegistration(LoginRequiredMixin, CreateView):
 
 
 
-class ViewUserPermissions(LoginRequiredMixin,View):
+class ViewUserPermissions(LoginRequiredMixin, CheckPermissions, View):
 
     def get(self, request, *args, **kwargs):
-        checkpermissions(request.user)
         user = users.objects.get(id=kwargs.get('id'))
         user_permissions = Permission.objects.filter(user=user)
         all_permissions = Permission.objects.all()
@@ -86,7 +84,3 @@ class DeleteUser(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         users.objects.get(id=kwargs.get('id')).delete()
         return redirect('users')
-
-def checkpermissions(user):
-    if not (user.has_perm('auth.view_user')  and  user.has_perm('auth.add_user')):
-        raise ObjectDoesNotExist

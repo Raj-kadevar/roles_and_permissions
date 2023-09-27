@@ -10,10 +10,6 @@ function closeNav() {
   document.body.style.backgroundColor = "white";
 }
 $(document).ready(function() {$('.user_form').hide();})
-function bodyload()
-{
-
-}
 
 function adduser()
 {
